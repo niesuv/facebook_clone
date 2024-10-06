@@ -1,19 +1,20 @@
 import React from "react";
-import { NavBar } from "../../components/profile/NavBar/NavBar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import "../../index.css"
+import { Outlet } from "react-router-dom";
+import Header from "./NavBar/Header";
 
 
 const client = new QueryClient();
 
-const ProfilePage = () => {
+const Root = () => {
   return (
     <QueryClientProvider client={client}>
       <div className="flex flex-col w-screen">
-        <NavBar></NavBar>
+        <Header></Header>
+        <Outlet></Outlet>
       </div>
     </QueryClientProvider>
   );
 };
 
-export default ProfilePage;
+export default Root;

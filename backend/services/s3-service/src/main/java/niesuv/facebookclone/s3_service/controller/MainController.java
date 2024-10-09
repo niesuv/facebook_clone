@@ -26,8 +26,9 @@ public class MainController {
     }
 
     @PutMapping("/upload")
-    public ResponseEntity<Object> uploadFile(@RequestParam("file")MultipartFile file) {
-        if (s3Service.uploadFile(file))
+    public ResponseEntity<Object> uploadFile(@RequestParam("file")MultipartFile file
+            , @RequestParam("key")String key) {
+        if (s3Service.uploadFile(file, key))
             return ResponseEntity.ok("Upload file Successfully");
         return ResponseEntity.badRequest().body("Error");
     }

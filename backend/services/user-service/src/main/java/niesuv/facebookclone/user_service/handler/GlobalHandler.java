@@ -1,7 +1,7 @@
 package niesuv.facebookclone.user_service.handler;
 
 
-import niesuv.facebookclone.user_service.exception.UserNameExistException;
+import niesuv.facebookclone.user_service.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,9 @@ public class GlobalHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({UserNameExistException.class, })
+    @ExceptionHandler({UserNameExistException.class, UserIdNotExists.class, InputNotValid.class,
+            CreateUserException.class, AlreadyFriendException.class, CannotSaveUser.class
+    })
     public String handler(Exception e) {
         return e.getMessage();
     }

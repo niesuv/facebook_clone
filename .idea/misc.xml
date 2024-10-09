@@ -7,6 +7,12 @@
         <option value="$PROJECT_DIR$/services/config-server/pom.xml" />
         <option value="$PROJECT_DIR$/services/eureka-server/pom.xml" />
         <option value="$PROJECT_DIR$/services/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/services/config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/services/eureka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/services/kafka-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/services/post-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/services/s3-service/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/services/user-service/pom.xml" />
       </list>
     </option>
   </component>

@@ -6,7 +6,7 @@ spring:
 
 
   datasource:
-    url: jdbc:mysql://localhost:3306/facebook
+    url: jdbc:mysql://localhost:3306/facebook_user
     username: root
     password: sang
 

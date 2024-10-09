@@ -26,10 +26,10 @@ public class S3Service {
     @Autowired
     private S3Client s3Client;
 
-    public boolean uploadFile(MultipartFile file) {
+    public boolean uploadFile(MultipartFile file,String key) {
         try (InputStream inputStream = file.getInputStream()) {
             PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(BUCKET_NAME)
-                    .key("/sang/" + file.getOriginalFilename()).build();
+                    .key(key).build();
             PutObjectResponse response =
                     s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, file.getSize()));
             return response.sdkHttpResponse().isSuccessful();

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -16,4 +17,10 @@ public interface FacebookUserRepository extends JpaRepository<FacebookUser, UUID
 
     @Query("select (count(f) > 0) from FacebookUser f where f.userName = ?1")
     boolean existsByUserName(String userName);
+
+
+    FacebookUser getById(UUID id);
+
+    @Override
+    boolean existsById(UUID uuid);
 }

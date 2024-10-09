@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
+import { useRef, useState } from "react";
 import Logo from "../../svg/logo";
 import Search from "../../svg/search";
 import HomeActive from "../../svg/homeActive";
@@ -6,32 +7,37 @@ import Friends from "../../svg/friends";
 import Watch from "../../svg/watch";
 import Market from "../../svg/market";
 import Gaming from "../../svg/gaming";
+import Menu from "../../svg/menu";
+import Messenger from "../../svg/messenger";
+import Notifications from "../../svg/notifications";
+import AllMenu from "./AllMenu";
 
 const color = "#65676b";
 const Header = () => {
+  const [showAllMenu, setShowAllMenu] = useState(false);
   const middle_icon =
-    "relative flex items-center justify-center w-[125px] h-[50px] rounded-[10px] cursor-pointer -translate-x-[2px] hover1";
+    "relative flex items-center justify-center w-1/2 h-12 rounded-[10px] cursor-pointer transform -translate-x-[2px]  hover1";
   const active =
-    "border-b-4 border-blue-600 rounded-none h-14 transform translate-x-0";
+    "border-b-4 border-blue rounded-none h-14 transform translate-x-0";
   return (
-    <header className="sticky md:justify-between top-0 h-14 z-10 bg-black w-full flex text-white">
-      <div className="flex items-center gap-2.5 p-[5px_1rem]">
+    <header className="fixed md:justify-between top-0 h-14 z-10 bg-primary w-full flex text-primary shadow-[1px_8px_15px_-7px_var(--shadow-2)] ">
+      <div className="flex items-center gap-2.5 p-[5px_1rem] w-1/3">
         <NavLink className="" to="/">
           <div className="w-10 h-10 rounded-full cursor-pointer flex items-center justify-center">
             <Logo />
           </div>
         </NavLink>
 
-        <div className="flex items-center gap-2 bg-[#f0f2f5] p-[10px_32px_10px_10px] rounded-full cursor-text md:max-w-[1040px]:w-10 md:max-w-[1040px]:h-10 md:max-w-[1040px]:p-0 md:max-w-[1040px]:justify-center">
+        <div className="flex items-center gap-2 bg-[#f0f2f5] p-[14px] xl:p-[10px_32px_10px_10px] rounded-full cursor-text ">
           <Search color={color} />
           <input
-            className="outline-none border-none bg-transparent text-[15px] font-inherit transform -translate-y-px"
+            className="outline-none border-none bg-transparent text-[15px] font-inherit transform -translate-y-px hidden xl:flex"
             type="text"
             placeholder="Search Facebook"
           />
         </div>
       </div>
-      <div className="flex items-center gap-[14px] translate-x-[3px]">
+      <div className="hidden items-center gap-[14px]  md:flex w-1/2">
         <NavLink
           to="/"
           className={({ isActive }) =>
@@ -55,7 +61,7 @@ const Header = () => {
           }
         >
           <Watch color={color} />
-          <div className="absolute top-[3px] right-[1.2rem] bg-[#e41e3f] rounded-full px-[5px] py-[1px] text-[13px] text-white">
+          <div className="absolute top-[3px] right-[30%] bg-[#e41e3f] rounded-full px-[5px] py-[1px] text-[13px] text-white">
             9+
           </div>
         </NavLink>
@@ -76,15 +82,34 @@ const Header = () => {
           <Gaming color={color} />
         </NavLink>
       </div>
-      <div className="flex absolute right-[8px] top-1/2 transform -translate-y-1/2">
-      <NavLink>
 
-      </NavLink>
-      
+      <div className="flex items-center w-1/3 ">
+        <div className="flex items-center absolute gap-2 right-2">
+          <div className="relative flex rounded-full cursor-pointer w-10 h-10 items-center bg-third justify-center">
+            <div
+              onClick={() => {
+                setShowAllMenu((prev) => !prev);
+              }}
+            >
+              <Menu />
+            </div>
+            {showAllMenu && <AllMenu />}
+          </div>
+          <div className="relative flex rounded-full cursor-pointer w-10 h-10 items-center bg-third justify-center">
+            <Messenger />
+          </div>
+          <div className="relative flex rounded-full cursor-pointer w-10 h-10 items-center bg-third justify-center">
+            <Notifications />
+          </div>
+          <NavLink className="flex items-center gap-1 cursor-pointer  border border-darkwhite rounded-full mr-1">
+            <img
+              className="w-10 h-10 rounded-full"
+              src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-1/447458148_1428209785247518_705161193208956860_n.jpg?stp=dst-jpg_s200x200&_nc_cat=110&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeFvc6Yux-WdhtPuehYxIpS4bI7Azy2yZspsjsDPLbJmysTqAA6dQw2gl73wxMxelC1FfGIbhQ87id32A2kKk7uA&_nc_ohc=WhGMhrK6J2MQ7kNvgEUZRxu&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=A6l9Ci0uAhXl7IjD8reeqtr&oh=00_AYDWkBDBDhwdDrG07hOpBPkwbyf8QmJkRKas1Iy7nGWoaQ&oe=6706EDAF"
+              alt=""
+            />
+          </NavLink>
+        </div>
       </div>
-
-      <div>Sang</div>
-
     </header>
   );
 };

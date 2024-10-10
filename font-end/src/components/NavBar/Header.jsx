@@ -12,15 +12,21 @@ import Messenger from "../../svg/messenger";
 import Notifications from "../../svg/notifications";
 import AllMenu from "./AllMenu";
 
-const color = "#65676b";
 const Header = () => {
+  const isDarkMode = document.documentElement.classList.contains('dark');
+  let color = "#65676b";
+  if (isDarkMode)
+    color = '#B9BBBE'
+  
+
   const [showAllMenu, setShowAllMenu] = useState(false);
   const middle_icon =
-    "relative flex items-center justify-center w-1/2 h-12 rounded-[10px] cursor-pointer transform -translate-x-[2px]  hover1";
+    "relative flex items-center  justify-center w-1/2 h-12 rounded-[10px] cursor-pointer transform -translate-x-[2px] dark:hover:bg-gray";
   const active =
     "border-b-4 border-blue rounded-none h-14 transform translate-x-0";
   return (
-    <header className="fixed md:justify-between top-0 h-14 z-10 bg-primary w-full flex text-primary shadow-[1px_8px_15px_-7px_var(--shadow-2)] ">
+    <header className="sticky md:justify-between top-0 h-14 z-10 bg-primary w-full flex dark:border-b-[1px] dark:border-b-gray
+     text-primary shadow-[1px_8px_15px_-7px_var(--shadow-2)] dark:bg-black ">
       <div className="flex items-center gap-2.5 p-[5px_1rem] w-1/3">
         <NavLink className="" to="/">
           <div className="w-10 h-10 rounded-full cursor-pointer flex items-center justify-center">
@@ -28,10 +34,10 @@ const Header = () => {
           </div>
         </NavLink>
 
-        <div className="flex items-center gap-2 bg-[#f0f2f5] p-[14px] xl:p-[10px_32px_10px_10px] rounded-full cursor-text ">
+        <div className="flex items-center gap-2 dark:bg-gray dark:text-white bg-[#f0f2f5] p-[14px] xl:p-[10px_32px_10px_10px] rounded-full cursor-text ">
           <Search color={color} />
           <input
-            className="outline-none border-none bg-transparent text-[15px] font-inherit transform -translate-y-px hidden xl:flex"
+            className="outline-none border-none bg-transparent  text-[15px] font-inherit transform -translate-y-px hidden xl:flex"
             type="text"
             placeholder="Search Facebook"
           />
@@ -85,7 +91,7 @@ const Header = () => {
 
       <div className="flex items-center w-1/3 ">
         <div className="flex items-center absolute gap-2 right-2">
-          <div className="relative flex rounded-full cursor-pointer w-10 h-10 items-center bg-third justify-center">
+          <div className="relative flex rounded-full dark:bg-gray  cursor-pointer w-10 h-10 items-center bg-third justify-center">
             <div
               onClick={() => {
                 setShowAllMenu((prev) => !prev);
@@ -95,13 +101,13 @@ const Header = () => {
             </div>
             {showAllMenu && <AllMenu />}
           </div>
-          <div className="relative flex rounded-full cursor-pointer w-10 h-10 items-center bg-third justify-center">
+          <div className="relative flex rounded-full dark:bg-gray dark:fill-white cursor-pointer w-10 h-10 items-center bg-third justify-center">
             <Messenger />
           </div>
-          <div className="relative flex rounded-full cursor-pointer w-10 h-10 items-center bg-third justify-center">
+          <div className="relative flex rounded-full dark:bg-gray dark:fill-white cursor-pointer w-10 h-10 items-center bg-third justify-center">
             <Notifications />
           </div>
-          <NavLink className="flex items-center gap-1 cursor-pointer  border border-darkwhite rounded-full mr-1">
+          <NavLink className="mr-4 md:mr-1 flex items-center gap-1 cursor-pointer  border border-darkwhite rounded-full ">
             <img
               className="w-10 h-10 rounded-full"
               src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-1/447458148_1428209785247518_705161193208956860_n.jpg?stp=dst-jpg_s200x200&_nc_cat=110&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeFvc6Yux-WdhtPuehYxIpS4bI7Azy2yZspsjsDPLbJmysTqAA6dQw2gl73wxMxelC1FfGIbhQ87id32A2kKk7uA&_nc_ohc=WhGMhrK6J2MQ7kNvgEUZRxu&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=A6l9Ci0uAhXl7IjD8reeqtr&oh=00_AYDWkBDBDhwdDrG07hOpBPkwbyf8QmJkRKas1Iy7nGWoaQ&oe=6706EDAF"

@@ -1,9 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'selector',
   content: ["./src/**/*.{html,jsx,js}"],
   theme: {
     extend: {
       colors: {
+        text: "#A7ABB0",
         blue: "#0766FF",
         black: "#242526",
         white: "#E6E9EC",
@@ -22,5 +24,8 @@ module.exports = {
     },
   },
 
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/aspect-ratio"),
+    require("daisyui"),
+  ],
 };

@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -31,6 +32,14 @@ public class FacebookUser {
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
+    @Column(name = "birthday")
+    private LocalDate birthday;
+
+    @Column(name = "avt_url")
+    private String avtUrl;
+
+    @Column(name = "background_url")
+    private String backgroundUrl;
 
     @CreatedDate
     @Column(name = "created_at")

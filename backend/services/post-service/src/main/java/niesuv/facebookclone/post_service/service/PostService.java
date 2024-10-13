@@ -7,28 +7,15 @@ import niesuv.facebookclone.post_service.dto.PostReturnDTO;
 import niesuv.facebookclone.post_service.entity.Post;
 import niesuv.facebookclone.post_service.entity.PostImage;
 import niesuv.facebookclone.post_service.exception.*;
-import niesuv.facebookclone.post_service.http.S3FeignClient;
 import niesuv.facebookclone.post_service.http.UserFeignClient;
 import niesuv.facebookclone.post_service.repository.PostImageRepository;
 import niesuv.facebookclone.post_service.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,7 +27,7 @@ public class PostService {
     private PostRepository postRepository;
 
     @Autowired
-    private s3RestTemplate s3RestTemplate;
+    private niesuv.facebookclone.post_service.http.s3RestTemplate s3RestTemplate;
 
     @Autowired
     private PostImageRepository postImageRepository;
@@ -48,6 +35,9 @@ public class PostService {
 
     @Autowired
     private final UserFeignClient userFeignClient;
+
+    @Autowired
+    private final AsyncS3Service asyncS3Service;
 
     public UUID createPost(CreatePostDto dto) {
         Post post = new Post();
@@ -136,6 +126,12 @@ public class PostService {
             throw new PostIdNotExists("Post id does not belong to any post!");
     }
 
+
+    public void deletePost(UUID postId) {
+        postRepository.deleteById(postId);
+        asyncS3Service.deleteFolder("post/" + postId);
+    }
+
     private static PostReturnDTO toDTO(Post post) {
         return PostReturnDTO.builder()
                 .totalLike(post.getTotalLike())
@@ -148,5 +144,6 @@ public class PostService {
                 .userId(post.getUserId())
                 .build();
     }
+
 }
 

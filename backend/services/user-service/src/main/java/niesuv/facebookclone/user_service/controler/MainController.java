@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -48,5 +49,19 @@ public class MainController {
         return userService.existsById(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/avatar")
+    public void updateAvatar(@RequestParam("image") MultipartFile file
+            , @RequestParam("userId") UUID id) {
+        userService.updateAvatar(id, file);
+
+    }
+
+    @PostMapping("/background")
+    public void updateBackGround(@RequestParam("image") MultipartFile file
+            , @RequestParam("userId") UUID id) {
+        userService.updateBackGround(id, file);
+
+    }
 
 }

@@ -26,7 +26,7 @@ public class MainController {
     }
 
     @PutMapping("/upload")
-    public ResponseEntity<Object> uploadFile(@RequestParam("file")MultipartFile file
+    public ResponseEntity<String> uploadFile(@RequestParam("file")MultipartFile file
             , @RequestParam("key")String key) {
         if (s3Service.uploadFile(file, key))
             return ResponseEntity.ok("Upload file Successfully");
@@ -34,8 +34,15 @@ public class MainController {
     }
 
     @DeleteMapping("/deletefolder")
-    public ResponseEntity<Object> deleteFolder(@RequestParam("folder") String folder) {
+    public ResponseEntity<String> deleteFolder(@RequestParam("folder") String folder) {
         if (s3Service.deleteFolder(folder))
+            return ResponseEntity.ok("Delete folder Successfully");
+        return ResponseEntity.badRequest().body("Error");
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<String> deleteFile(@RequestParam("key") String key) {
+        if (s3Service.deleteFile(key))
             return ResponseEntity.ok("Delete folder Successfully");
         return ResponseEntity.badRequest().body("Error");
     }

@@ -8,10 +8,15 @@ import niesuv.facebookclone.user_service.exception.CreateUserException;
 import niesuv.facebookclone.user_service.exception.InputNotValid;
 import niesuv.facebookclone.user_service.exception.UserIdNotExists;
 import niesuv.facebookclone.user_service.exception.UserNameExistException;
+import niesuv.facebookclone.user_service.http.S3Client;
 import niesuv.facebookclone.user_service.repository.FacebookUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,6 +24,12 @@ import java.util.UUID;
 public class UserService {
     @Autowired
     private FacebookUserRepository userRepository;
+
+    @Autowired
+    private S3Service s3Service;
+
+    @Autowired
+    private S3Client s3Client;
 
 
     public UUID createUser(CreateUserDTO dto) {
@@ -34,7 +45,7 @@ public class UserService {
 
     FacebookUser toFacebookUser(CreateUserDTO dto) {
         return FacebookUser.builder().userName(dto.userName())
-                .email(dto.email()).fullName(dto.fullName()).build();
+                .email(dto.email()).fullName(dto.fullName()).birthday(dto.birthday()).build();
     }
 
     public void updateUser(UpdateUserDto dto) {
@@ -55,6 +66,10 @@ public class UserService {
             if (dto.email() != null ) {
                 user.setEmail(dto.email());
             }
+
+            if (dto.birthday() != null ) {
+                user.setBirthday(dto.birthday());
+            }
             userRepository.save(user);
 
         }
@@ -64,9 +79,87 @@ public class UserService {
 
     public void deleteUser(UUID id) {
         userRepository.deleteById(id);
+        s3Service.deleteFolder("user/" + id.toString());
+
     }
 
     public boolean existsById(UUID id) {
         return userRepository.existsById(id);
     }
+
+    public void updateAvatar(UUID id, MultipartFile file) {
+        Optional<FacebookUser> opUser = userRepository.findById(id);
+        if (opUser.isPresent()) {
+            FacebookUser user = opUser.get();
+            try {
+                var extension = isImage(file);
+                if (extension != null) {
+                    String key = "user/" + id.toString() + "/" + file.getOriginalFilename();
+                    s3Client.upload(file, key);
+                    user.setAvtUrl(key);
+                    userRepository.save(user);
+                }
+                else
+                    throw new InputNotValid("File is not an image");
+            }
+            catch (IOException e) {
+                throw new RuntimeException("Error when read image!");
+            }
+
+        }
+        else
+            throw new UserIdNotExists("User id not exist!");
+    }
+
+
+    public void updateBackGround(UUID id, MultipartFile file) {
+        Optional<FacebookUser> opUser = userRepository.findById(id);
+        if (opUser.isPresent()) {
+            FacebookUser user = opUser.get();
+            try {
+                var extension = isImage(file);
+                if (extension != null) {
+                    String key = "user/" + id.toString() + "/" + file.getOriginalFilename();
+                    s3Client.upload(file, key);
+                    user.setBackgroundUrl(key);
+                    userRepository.save(user);
+                }
+                else
+                    throw new InputNotValid("File is not an image");
+            }
+            catch (IOException e) {
+                throw new RuntimeException("Error when read image!");
+            }
+
+        }
+        else
+            throw new UserIdNotExists("User id not exist!");
+    }
+
+    public String isImage(MultipartFile file) throws IOException {
+        try (InputStream inputStream = file.getInputStream()) {
+            byte[] headerBytes = new byte[4];
+            int bytesRead = inputStream.read(headerBytes, 0, 4);  // Đọc 4 byte từ đầu file
+
+            if (bytesRead < 4) {
+                return null;  // File quá nhỏ, không hợp lệ
+            }
+
+            String fileSignature = String
+                    .format("%02X %02X %02X %02X", headerBytes[0], headerBytes[1], headerBytes[2], headerBytes[3]);
+
+            if (fileSignature.startsWith("FF D8 FF")) {
+                return "jpg";  // JPEG
+            } else if (fileSignature.startsWith("89 50 4E 47")) {
+                return "png";  // PNG
+            }
+//            else if (fileSignature.startsWith("66 74 79 70")) {
+//                return "mp4";
+//            }
+            ;  // mp4
+            return null;
+        }
+    }
+
+
 }

@@ -7,6 +7,7 @@ import niesuv.facebookclone.post_service.entity.Comment;
 import niesuv.facebookclone.post_service.entity.Post;
 import niesuv.facebookclone.post_service.exception.CreateCommentException;
 import niesuv.facebookclone.post_service.exception.PostIdNotExists;
+import niesuv.facebookclone.post_service.exception.UnValidInput;
 import niesuv.facebookclone.post_service.exception.UserNotExistException;
 import niesuv.facebookclone.post_service.http.UserFeignClient;
 import niesuv.facebookclone.post_service.repository.CommentRepository;
@@ -36,21 +37,37 @@ public class CommentService {
     public UUID addComment(CreateCommentDTO dto) {
         if (!userFeignClient.exists(dto.userId())) {
             throw new UserNotExistException("UserId does not belongs to any users");
-        } else {
-            Optional<Post> opPost = postRepository.findById(dto.postId());
-            if (opPost.isPresent()) {
-                var post = opPost.get();
-                var id = commentRepository.save(toComment(dto)).getId();
-                if (id == null)
-                    throw new CreateCommentException("Cannot create comment!");
-                else {
-                    post.setTotalComments(post.getTotalComments() + 1);
-                    return id;
-                }
-            } else {
-                throw new PostIdNotExists("PostId does not exist");
-            }
         }
+
+
+        Comment comment = null;
+        if (dto.replyToId() != null) {
+            Optional<Comment> optionalComment = commentRepository.findById(dto.replyToId());
+            if (optionalComment.isPresent()) {
+                comment = optionalComment.get();
+            } else
+                throw new UnValidInput("Comment ID dont belongs to any comment");
+        }
+
+        Optional<Post> opPost = postRepository.findById(dto.postId());
+        if (opPost.isPresent()) {
+            var post = opPost.get();
+            var id = commentRepository.save(toComment(dto)).getId();
+            if (id == null)
+                throw new CreateCommentException("Cannot create comment!");
+            else {
+                post.setTotalComments(post.getTotalComments() + 1);
+                postRepository.save(post);
+                if (comment != null) {
+                    comment.setTotalReplies(comment.getTotalReplies() + 1);
+                    commentRepository.save(comment);
+                }
+                return id;
+            }
+        } else {
+            throw new PostIdNotExists("PostId does not exist");
+        }
+
     }
 
 

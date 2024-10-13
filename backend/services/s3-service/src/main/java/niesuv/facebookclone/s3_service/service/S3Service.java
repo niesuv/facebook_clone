@@ -9,13 +9,11 @@ import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.DeleteObjectResponse;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import static niesuv.facebookclone.s3_service.constants.Constants.BUCKET_NAME;
 
@@ -26,7 +24,7 @@ public class S3Service {
     @Autowired
     private S3Client s3Client;
 
-    public boolean uploadFile(MultipartFile file,String key) {
+    public boolean uploadFile(MultipartFile file, String key) {
         try (InputStream inputStream = file.getInputStream()) {
             PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(BUCKET_NAME)
                     .key(key).build();
@@ -40,8 +38,26 @@ public class S3Service {
 
     public boolean deleteFolder(String folderName) {
         try {
+            ListObjectsV2Request listObjectsRequest = ListObjectsV2Request.builder()
+                    .bucket(BUCKET_NAME)
+                    .prefix(folderName)
+                    .build();
+
+            ListObjectsV2Response response = s3Client.listObjectsV2(listObjectsRequest);
+            List<S3Object> items = response.contents();
+            items.forEach((s) -> {
+                deleteFile(s.key());
+            });
+            return true;
+        } catch (AwsServiceException | SdkClientException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean deleteFile(String key) {
+        try {
             DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder().bucket(BUCKET_NAME)
-                    .key(folderName).build();
+                    .key(key).build();
             DeleteObjectResponse response = s3Client.deleteObject(deleteObjectRequest);
             return response.sdkHttpResponse().isSuccessful();
 
@@ -49,5 +65,4 @@ public class S3Service {
             throw new RuntimeException(e);
         }
     }
-
 }

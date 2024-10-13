@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * DTO for {@link niesuv.facebookclone.user_service.entity.FacebookUser}
@@ -13,5 +14,5 @@ import java.io.Serializable;
 
 @Valid
 public record CreateUserDTO(@NotNull String userName, @NotNull @NotBlank @Email String email,
-                            @NotNull String fullName) implements Serializable {
+                            @NotNull String fullName, LocalDate birthday) implements Serializable {
 }

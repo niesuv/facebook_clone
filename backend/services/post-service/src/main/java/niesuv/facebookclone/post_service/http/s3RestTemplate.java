@@ -1,8 +1,7 @@
-package niesuv.facebookclone.post_service.service;
+package niesuv.facebookclone.post_service.http;
 
 
 import lombok.RequiredArgsConstructor;
-import niesuv.facebookclone.post_service.http.MultipartInputStreamFileResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.HttpEntity;
@@ -25,7 +24,7 @@ public class s3RestTemplate {
     private RestTemplate restTemplate;
 
     private final String S3_URL = "http://S3-SERVICE";
-    void upload(MultipartFile file, String key) throws IOException {
+    public void upload(MultipartFile file, String key) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 

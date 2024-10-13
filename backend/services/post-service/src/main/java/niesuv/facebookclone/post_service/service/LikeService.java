@@ -65,6 +65,7 @@ public class LikeService {
                 throw new CreatePostException("Cannot create like");
 
             post.setTotalLike(post.getTotalLike() + 1);
+            postRepository.save(post);
             return id;
         }
 
@@ -81,6 +82,7 @@ public class LikeService {
             throw new CreatePostException("Cannot create like");
 
         comment.setTotalLikes(comment.getTotalLikes() + 1);
+        commentRepository.save(comment);
         return id;
 
 

@@ -62,5 +62,10 @@ public class MainController {
         return likeService.addLike(dto);
     }
 
+    @DeleteMapping("/{postId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deletePost(@PathVariable("postId") UUID postId) {
+        postService.deletePost(postId);
+    }
 
 }

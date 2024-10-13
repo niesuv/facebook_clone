@@ -8,6 +8,9 @@ import "./styles/icons/icons.css";
 import Root from "./components/Root";
 import Wall from "./components/Wall";
 import Feed from "./components/Feed";
+import WallPost from "./components/Wall/Index/WallPost";
+import WallFriend from "./components/Wall/Friends/WallFriend";
+import WallPhotos from "./components/Wall/Photo/WallPhotos";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -16,18 +19,32 @@ const router = createBrowserRouter([
       {
         path: "",
         index: true,
-        element: <Feed></Feed>
+        element: <Feed></Feed>,
+      },
 
-      }
-
-      ,
       {
         path: "/:username",
         element: <Wall />,
+        children: [
+          {
+            path: "",
+            index: true,
+            element: <WallPost></WallPost>,
+          },
+
+          {
+            path: "friends",
+            element: <WallFriend></WallFriend>,
+          },
+
+          {
+            path: "photos",
+            element: <WallPhotos></WallPhotos>,
+          },
+        ],
       },
     ],
   },
- 
 ]);
 
 createRoot(document.getElementById("root")).render(

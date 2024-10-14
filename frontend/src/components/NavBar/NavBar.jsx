@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export const NavBar = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-black h-14 flex justify-between sticky top-0 z-30 items-center py-[6px] px-8 ">
+    <div className="bg-black h-14 flex justify-between sticky top-0 z-10000 items-center py-[6px] px-8 ">
       <div id="left-nav" className="h-full flex justify-start gap-2">
         <div
           className="bg-blue rounded-full text-center flex items-end justify-center

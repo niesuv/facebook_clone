@@ -11,26 +11,24 @@ export const getUserDetails = async (username) => {
       id: "123114",
       friends: [
         {
+          fullname: "Huy Bui",
           url: "https://picsum.photos/600/400",
         },
         {
+          fullname: "Manh Phan",
           url: "https://picsum.photos/700/400",
         },
         {
+          fullname: "Tan Phat",
           url: "https://picsum.photos/400/400",
         },
-        {
-          url: "https://picsum.photos/1000/400",
-        },
-        {
-          url: "https://picsum.photos/600/600",
-        },
-        {
-          url: "https://picsum.photos/600/500",
-        },
-        {
-          url: "https://picsum.photos/600/450",
-        },
+        { fullname: "Tan Phat", url: "https://picsum.photos/1000/400" },
+        { fullname: "Tri Vu", url: "https://picsum.photos/600/600" },
+        { fullname: "Uong Beo", url: "https://picsum.photos/600/500" },
+        { fullname: "Gia Phuc", url: "https://picsum.photos/600/450" },
+        { fullname: "Tran Long", url: "https://picsum.photos/611/450" },
+        { fullname: "My Hien", url: "https://picsum.photos/620/452" },
+
       ],
       backgroundUrl:
         "https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/326741594_1397625924315952_8369081978684846629_n.jpg?stp=dst-jpg_s960x960&_nc_cat=104&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeHBFltDfNZa7vEiyAN6XwfY0I1RDkorEnLQjVEOSisSchMu2fmPXb2yb1F6OaBzUtsInw2dD27QiTXv345BiaWS&_nc_ohc=R0fznjYpfw0Q7kNvgFINFSG&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=A6l9Ci0uAhXl7IjD8reeqtr&oh=00_AYAbgtN0fgAy2vGhGt2urAW2WhtLfyaJjJzyMW0Fl1xeUw&oe=6706C392",
@@ -75,5 +73,42 @@ export const getNewPost = async () => {
       times: "1 ngày",
     },
   ];
+  return Promise.resolve(data);
+};
+
+export const getUserImages = async (username) => {
+  const data = [
+    {
+      url: "https://picsum.photos/601/400",
+    },
+    {
+      url: "https://picsum.photos/701/400",
+    },
+    {
+      url: "https://picsum.photos/401/400",
+    },
+    {
+      url: "https://picsum.photos/1010/400",
+    },
+    {
+      url: "https://picsum.photos/601/600",
+    },
+    {
+      url: "https://picsum.photos/601/500",
+    },
+    {
+      url: "https://picsum.photos/601/449",
+    },
+    {
+      url: "https://picsum.photos/601/459",
+    },
+    {
+      url: "https://picsum.photos/601/455",
+    },
+    {
+      url: "https://picsum.photos/601/451",
+    },
+  ];
+  await sleep(500);
   return Promise.resolve(data);
 };

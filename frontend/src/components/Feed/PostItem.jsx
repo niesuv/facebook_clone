@@ -20,7 +20,7 @@ const PostItem = ({ post }) => {
   return (
     <div className="flex flex-col w-full rounded-lg dark:bg-black  dark:text-text">
       <div className="pt-2 px-4 flex items-center gap-2">
-        <div className="w-10 h-10  bg-red-500  hover:brightness-110 rounded-full overflow-hidden ">
+        <div className="w-10 h-10 hover:brightness-110 rounded-full overflow-hidden ">
           <img
             src={data ? data.avtUrl : avt_default}
             className="object-cover h-full w-full"

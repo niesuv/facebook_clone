@@ -11,7 +11,7 @@ const Root = () => {
   return (
     <Provider store={store}>
       <QueryClientProvider client={client}>
-        <div className="flex flex-col w-screen dark:bg-darkblack h-full">
+        <div className="flex flex-col w-full dark:bg-darkblack h-full">
           <Header></Header>
           <Outlet></Outlet>
         </div>

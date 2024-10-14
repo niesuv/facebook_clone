@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
-export const LoadingIndicator = ({className}) => {
+const LoadingIndicator = ({className}) => {
   return (
-    <div className='flex justify-center '>
-        <span className={"loading loading-spinner text-blue " + className}></span>
+    <div className="flex justify-center ">
+      <span className={"loading loading-spinner text-blue " + className}></span>
     </div>
-  )
-}
+  );
+};
+
+export default LoadingIndicator;

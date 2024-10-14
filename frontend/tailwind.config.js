@@ -17,6 +17,7 @@ module.exports = {
         darkblack: "#18191A",
         third: "#e4e6eb",
         secondary: "#f0f2f5",
+        lightblue: "#6AAFFD"
       },
       textColor: {
         primary: "#050505",
@@ -25,7 +26,6 @@ module.exports = {
   },
 
   plugins: [
-    require("@tailwindcss/aspect-ratio"),
     require("daisyui"),
   ],
 };

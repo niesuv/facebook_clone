@@ -8,6 +8,7 @@ import niesuv.facebookclone.user_service.exception.CreateUserException;
 import niesuv.facebookclone.user_service.exception.InputNotValid;
 import niesuv.facebookclone.user_service.exception.UserIdNotExists;
 import niesuv.facebookclone.user_service.exception.UserNameExistException;
+import niesuv.facebookclone.user_service.http.PostFeignClient;
 import niesuv.facebookclone.user_service.http.S3Client;
 import niesuv.facebookclone.user_service.repository.FacebookUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -30,6 +33,11 @@ public class UserService {
 
     @Autowired
     private S3Client s3Client;
+    @Autowired
+    private FriendService friendService;
+
+    @Autowired
+    private PostFeignClient postFeignClient;
 
 
     public UUID createUser(CreateUserDTO dto) {
@@ -78,10 +86,21 @@ public class UserService {
     }
 
     public void deleteUser(UUID id) {
-        userRepository.deleteById(id);
+
+        if (!userRepository.existsById(id))
+            throw new UserIdNotExists("User id not exist!");
+        FacebookUser user = userRepository.getUserWithAllFriends(id);
+        Set<FacebookUser> friends = user.getFriends();
+
+
+        //async call
+        friendService.updateTotalFriend(friends, -1);
         s3Service.deleteFolder("user/" + id.toString());
+        postFeignClient.clearActionsByUserId(id);
 
     }
+
+
 
     public boolean existsById(UUID id) {
         return userRepository.existsById(id);

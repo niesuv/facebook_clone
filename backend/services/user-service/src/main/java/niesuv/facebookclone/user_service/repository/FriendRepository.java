@@ -16,10 +16,6 @@ public interface FriendRepository extends JpaRepository<Friend, FriendId> {
             "or (f.friendId.user1Id = ?2 and f.friendId.user2Id = ?1)")
     boolean isFriend(UUID user1, UUID user2);
 
-//    @Transactional
-//    @Modifying
-//    @Query("delete from Friend f where f.friendId = ?1")
-//    int deleteByFriendId(FriendId friendId);
 
     @Transactional
     @Modifying

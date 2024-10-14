@@ -15,6 +15,7 @@ import niesuv.facebookclone.post_service.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +34,20 @@ public class CommentService {
 
     @Autowired
     private final PostService postService;
+
+    public void clearAllCommentsByUserID(UUID id) {
+        List<Comment> comments = commentRepository.findAllByUserID(id);
+        comments.forEach(cmt -> deleteComment(cmt.getId()));
+    }
+
+    public void deleteComment(UUID cmtID) {
+        Comment comment = commentRepository.findById(cmtID)
+                .orElseThrow(() -> new UnValidInput("Comment not found"));
+        Comment parentComment = comment.getReplyTo();
+        parentComment.setTotalReplies(parentComment.getTotalReplies() - 1);
+        commentRepository.delete(comment);
+        commentRepository.save(parentComment);
+    }
 
     public UUID addComment(CreateCommentDTO dto) {
         if (!userFeignClient.exists(dto.userId())) {

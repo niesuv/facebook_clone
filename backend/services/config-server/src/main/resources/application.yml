@@ -8,9 +8,12 @@ spring:
       server:
         native:
           search-locations: classpath:/configs
+  main:
+    banner-mode: off
 
 server:
   port: 8001
+
 
 
 #eureka:
@@ -19,3 +22,7 @@ server:
 #  client:
 #    service-url:
 #      defaultZone: http://${eureka.instance.hostname}:8002/eureka/
+logging:
+  level:
+    web: warn
+

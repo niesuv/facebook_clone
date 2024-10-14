@@ -11,11 +11,13 @@ import niesuv.facebookclone.post_service.http.UserFeignClient;
 import niesuv.facebookclone.post_service.repository.PostImageRepository;
 import niesuv.facebookclone.post_service.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -127,8 +129,15 @@ public class PostService {
     }
 
 
+    public void clearPostByUserId(UUID userId) {
+        List<Post> posts = postRepository.findAllByUserId(userId);
+        posts.forEach(post -> deletePost(post.getId()));
+    }
+
     public void deletePost(UUID postId) {
         postRepository.deleteById(postId);
+
+        //async code
         asyncS3Service.deleteFolder("post/" + postId);
     }
 

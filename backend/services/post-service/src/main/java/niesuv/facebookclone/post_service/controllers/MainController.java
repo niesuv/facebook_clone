@@ -68,4 +68,14 @@ public class MainController {
         postService.deletePost(postId);
     }
 
+    @DeleteMapping("")
+    @ResponseStatus(HttpStatus.OK)
+    public void clearActionsByUserId(@RequestParam("userId") UUID userId) {
+
+        postService.clearPostByUserId(userId);
+        commentService.clearAllCommentsByUserID(userId);
+        likeService.clearAllLikeByUserId(userId);
+    }
+
+
 }

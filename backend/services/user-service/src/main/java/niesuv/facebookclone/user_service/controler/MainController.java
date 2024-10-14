@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import niesuv.facebookclone.user_service.dto.CreateUserDTO;
 import niesuv.facebookclone.user_service.dto.UpdateUserDto;
+import niesuv.facebookclone.user_service.service.FriendService;
 import niesuv.facebookclone.user_service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,8 @@ public class MainController {
 
     @Autowired
     private UserService userService;
-
-
+    @Autowired
+    private FriendService friendService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("")
@@ -62,6 +63,18 @@ public class MainController {
             , @RequestParam("userId") UUID id) {
         userService.updateBackGround(id, file);
 
+    }
+
+    @PutMapping("/addfriend")
+    public void addFriend(@RequestParam("userId") UUID id,
+                          @RequestParam("friendId") UUID friendId) {
+        friendService.addFriend(id, friendId);
+    }
+
+    @DeleteMapping("/deletefriend")
+    public void deleleFriend(@RequestParam("userId") UUID id,
+                             @RequestParam("friendId") UUID friendId) {
+        friendService.deleteFriend(id, friendId);
     }
 
 }

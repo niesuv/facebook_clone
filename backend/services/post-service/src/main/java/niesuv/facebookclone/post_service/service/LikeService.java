@@ -16,8 +16,10 @@ import niesuv.facebookclone.post_service.repository.CommentRepository;
 import niesuv.facebookclone.post_service.repository.LikeRepository;
 import niesuv.facebookclone.post_service.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -87,4 +89,30 @@ public class LikeService {
 
 
     }
+
+
+    public void deleteLike(UUID likeId) {
+    }
+
+    public void deleteLike(Like like) {
+        Post post = like.getPost();
+        if (post != null) {
+            post.setTotalLike(post.getTotalLike() - 1);
+            postRepository.save(post);
+        }
+        Comment comment = like.getComment();
+        if (comment != null) {
+            comment.setTotalLikes(comment.getTotalLikes() - 1);
+            commentRepository.save(comment);
+        }
+        likeRepository.delete(like);
+    }
+
+
+
+    public void clearAllLikeByUserId(UUID userId) {
+        List<Like> likes = likeRepository.findAllByUserId(userId);
+        likes.forEach(this::deleteLike);
+    }
+
 }

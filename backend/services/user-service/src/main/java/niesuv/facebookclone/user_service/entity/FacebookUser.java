@@ -59,6 +59,10 @@ public class FacebookUser {
     private Set<FacebookUser> beingFriend = new LinkedHashSet<>();
 
 
+    @Column(name = "total_friends")
+    @Builder.Default
+    private Integer totalFriends = 0;
+
     @Override
     public int hashCode() {
         return id.hashCode();

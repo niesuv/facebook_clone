@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface S3FeignClient {
 
     @DeleteMapping("/deletefolder")
-    ResponseEntity<Object> deleteFolder(@RequestParam("folder") String folder);
+    ResponseEntity<String> deleteFolder(@RequestParam("folder") String folder);
 
     @DeleteMapping("")
-    ResponseEntity<Object> deleteFile(@RequestParam("key") String key);
+    ResponseEntity<String> deleteFile(@RequestParam("key") String key);
 
 
 }

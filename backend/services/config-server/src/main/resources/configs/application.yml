@@ -1,7 +1,5 @@
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:8002/eureka/
-    fetchRegistry: true
+logging:
+  level:
+    web: warn
+
+current_profile: dev

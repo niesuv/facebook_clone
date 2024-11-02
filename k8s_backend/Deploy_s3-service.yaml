@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s3-service
+  labels:
+    app: s3-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: s3-service
+  template:
+    metadata:
+      name: s3-service
+      labels:
+        app: s3-service
+    spec:
+      containers:
+        - name: s3-service
+          image: niesuv/s3-service:2.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+              name: internal-port
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: 'prod'
+            - name: aws_access_key
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: aws_access_key
+
+            - name: aws_secret_key
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: aws_secret_key
+
+
+      restartPolicy: Always
+

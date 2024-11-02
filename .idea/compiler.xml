@@ -11,15 +11,19 @@
         <module name="config-server" />
         <module name="post-service" />
         <module name="user-service" />
-        <module name="eureka-server" />
         <module name="kafka-service" />
+        <module name="gateway-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="eureka-server" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="config-server" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
       <module name="kafka-service" options="-parameters" />
       <module name="post-service" options="-parameters" />
       <module name="s3-service" options="-parameters" />

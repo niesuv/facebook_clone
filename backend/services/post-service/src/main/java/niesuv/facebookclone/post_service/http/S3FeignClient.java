@@ -10,15 +10,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-@FeignClient(name = "s3-SERVICE")
+@FeignClient(name = "S3-SERVICE", url = "${s3-service}")
 public interface S3FeignClient {
 
 
-    @DeleteMapping("/deletefolder")
+    @DeleteMapping("/api/v1/s3/deletefolder")
     ResponseEntity<String> deleteFolder(@RequestParam("folder") String folder);
 
-    @DeleteMapping("")
+    @DeleteMapping("/api/v1/s3")
     ResponseEntity<String> deleteFile(@RequestParam("key") String key);
-
 
 }

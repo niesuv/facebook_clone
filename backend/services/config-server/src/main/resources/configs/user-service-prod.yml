@@ -1,8 +1,8 @@
 server:
-  port: 8003
+  port: 80
 
 
-current_profile: dev
+current_profile: prod
 
 spring:
   datasource:
@@ -20,5 +20,3 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-
-

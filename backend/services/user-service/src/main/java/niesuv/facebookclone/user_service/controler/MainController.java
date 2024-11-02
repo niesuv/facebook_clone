@@ -3,11 +3,15 @@ package niesuv.facebookclone.user_service.controler;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import niesuv.facebookclone.user_service.dto.CreateUserDTO;
 import niesuv.facebookclone.user_service.dto.UpdateUserDto;
 import niesuv.facebookclone.user_service.service.FriendService;
 import niesuv.facebookclone.user_service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +21,24 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/user")
-@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
 public class MainController {
 
     @Autowired
     private UserService userService;
     @Autowired
     private FriendService friendService;
+
+
+    @Value("${current_profile}")
+    private String current_profile;
+
+    @GetMapping("")
+    public String hello() {
+        return current_profile;
+    }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("")

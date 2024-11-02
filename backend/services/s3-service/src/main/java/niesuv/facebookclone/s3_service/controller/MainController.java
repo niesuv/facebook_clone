@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.S3Client;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/api/v1/s3")
 @RequiredArgsConstructor
 public class MainController {
 

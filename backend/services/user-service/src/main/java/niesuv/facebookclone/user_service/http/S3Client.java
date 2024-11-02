@@ -1,8 +1,11 @@
 package niesuv.facebookclone.user_service.http;
 
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,15 +20,17 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import java.io.IOException;
 
 @Service
-@RequiredArgsConstructor
+@Getter
+@Setter
 public class S3Client {
 
 
     @Autowired
-    @LoadBalanced
     private RestTemplate restTemplate;
 
-    private final String S3_URL = "http://S3-SERVICE";
+    @Value("${s3-service}")
+    private  String S3_URL;
+
     public void upload(MultipartFile file, String key) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -36,7 +41,7 @@ public class S3Client {
                 (file.getInputStream(), file.getOriginalFilename(), file.getSize()));
         body.add("key", key);
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(body, headers);
-        String serverUrl = S3_URL + "/upload";
+        String serverUrl = S3_URL + "/api/v1/s3/upload";
 
         restTemplate.put(serverUrl, request);
     }

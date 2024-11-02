@@ -1,18 +1,12 @@
 server:
-  port: 8003
-
-
-current_profile: dev
+  port: 80
 
 spring:
   datasource:
-    url: 'jdbc:mysql://${backend_server}:3306/facebook_user'
+    url: jdbc:mysql://${backend_server}:3306/facebook_post
     username: "${mysql_user}"
     password: "${mysql_password}"
-  servlet:
-    multipart:
-      max-file-size: 20MB
-      max-request-size: 20MB
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -20,5 +14,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-
-
+  servlet:
+    multipart:
+      max-request-size: 20MB
+      max-file-size: 20MB

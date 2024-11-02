@@ -1,5 +1,11 @@
 logging:
   level:
     web: warn
+    root : warn
 
-current_profile: dev
+gateway-service: http://localhost:8007
+s3-service: http://localhost:8006
+backend_server: 3.0.89.181
+
+mysql_user: root
+mysql_password: sangdeptrai123

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-service
+  labels:
+    app: post-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: post-service
+  template:
+    metadata:
+      name: post-service
+      labels:
+        app: post-service
+    spec:
+      containers:
+        - name: post-service
+          image: niesuv/post-service:2.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+              name: internal-port
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: 'prod'
+      restartPolicy: Always
+      

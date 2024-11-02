@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, UUID> {
-    @Query("select p from Post p join fetch p.images where p.id = ?1")
+    @Query("select p from Post p left join fetch p.images where p.id = ?1")
     Optional<Post> postById(UUID id);
 
     @Query("select p from Post p where p.userId = ?1")

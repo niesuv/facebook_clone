@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.UUID;
 
-@FeignClient(name = "POST-SERVICE", url = "http://post-service-vpc")
+@FeignClient(name = "POST-SERVICE", url = "${gateway-service}")
 public interface PostFeignClient {
 
     @DeleteMapping("/api/v1/post")

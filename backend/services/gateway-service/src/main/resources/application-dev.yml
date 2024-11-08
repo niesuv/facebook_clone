@@ -4,6 +4,7 @@ spring:
   config:
     import: configserver:http://localhost:8001
 
+
   cloud:
     gateway:
       routes:

@@ -54,7 +54,7 @@ public class MainController {
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{userId}")
-    public void updateUser(@PathVariable("userId") UUID id) {
+    public void deleteUser(@PathVariable("userId") UUID id) {
         userService.deleteUser(id);
     }
 

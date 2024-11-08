@@ -20,7 +20,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: 'prod'
 
-          name: config-server
+          name: gateway-service
           image: niesuv/gateway-service:2.0
           imagePullPolicy: IfNotPresent
           ports:

@@ -45,7 +45,7 @@ const Wall = () => {
              md:justify-start"
               >
                 <div
-                  className="rounded-full aspect-1 text-center w-[33%] overflow-hidden border-4 border-black md:ml-8
+                  className="rounded-full aspect-square bg-white text-center w-[33%] overflow-hidden border-4 border-black md:ml-8
             max-w-48 hover:brightness-110"
                 >
                   <img src={data.avtUrl} alt="" className="object-cover" />

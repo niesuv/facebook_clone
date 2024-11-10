@@ -11,15 +11,37 @@ import Feed from "./components/Feed";
 import WallPost from "./components/Wall/Index/WallPost";
 import WallFriend from "./components/Wall/Friends/WallFriend";
 import WallPhotos from "./components/Wall/Photo/WallPhotos";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import store from "./store/index";
+import LoginPage from "./components/LoginPage";
+import SignUpPage from "./components/SignUpPage";
+
+const client = new QueryClient();
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: (
+      <QueryClientProvider client={client}>
+        <Provider store={store}>
+          <Root />
+        </Provider>
+      </QueryClientProvider>
+    ),
     children: [
       {
         path: "",
         index: true,
         element: <Feed></Feed>,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/signup",
+        element: <SignUpPage />,
       },
 
       {

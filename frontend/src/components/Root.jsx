@@ -1,21 +1,35 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Outlet } from "react-router-dom";
-import Header from "./NavBar/Header";
-import { store } from "../store/index";
-import { Provider } from "react-redux";
 
-const client = new QueryClient();
+import { Outlet, useFetcher, useLocation, useNavigate } from "react-router-dom";
+import Header from "./NavBar/Header";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { login } from "../store/user_slice";
+
 
 const Root = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user =  useSelector(state => state.user);
+  const location = useLocation()
+  const showHeader = ["/login", '/signup'].indexOf(location.pathname) === -1;
+  
+  // useEffect(() => {
+  //   const u = JSON.parse(localStorage.getItem('user'))
+  //   if (u)
+  //     dispatch(login(u))
+  // },[dispatch])
+  
+  useEffect(() => {
+    if (user.id === '' && showHeader)
+      navigate("/login")
+  }, [navigate, user])
+
+  
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={client}>
         <div className="flex flex-col w-full dark:bg-darkblack h-full">
-          <Header></Header>
+          {showHeader && <Header></Header>}
           <Outlet></Outlet>
         </div>
-      </QueryClientProvider>
-    </Provider>
   );
 };
 

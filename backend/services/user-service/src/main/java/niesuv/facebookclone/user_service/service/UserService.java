@@ -2,6 +2,7 @@ package niesuv.facebookclone.user_service.service;
 
 import lombok.RequiredArgsConstructor;
 import niesuv.facebookclone.user_service.dto.CreateUserDTO;
+import niesuv.facebookclone.user_service.dto.FacebookUserDto;
 import niesuv.facebookclone.user_service.dto.UpdateUserDto;
 import niesuv.facebookclone.user_service.entity.FacebookUser;
 import niesuv.facebookclone.user_service.exception.CreateUserException;
@@ -17,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -39,6 +39,33 @@ public class UserService {
     @Autowired
     private PostFeignClient postFeignClient;
 
+    private static FacebookUserDto toDTO(FacebookUser fbUser) {
+        return FacebookUserDto.builder()
+                .avtUrl(fbUser.getAvtUrl())
+                .backgroundUrl(fbUser.getBackgroundUrl())
+                .email(fbUser.getEmail())
+                .id(fbUser.getId())
+                .fullName(fbUser.getFullName())
+                .birthday(fbUser.getBirthday())
+                .userName(fbUser.getUserName())
+                .build();
+    }
+
+    public FacebookUserDto getUserById(UUID id) {
+        if (userRepository.existsById(id)) {
+            FacebookUser user = userRepository.getReferenceById(id);
+            return toDTO(user);
+        }
+        else throw new UserIdNotExists("User Id does not belongs to any user");
+    }
+
+    public FacebookUserDto getUserByUserName(String userName) {
+        if (userRepository.existsByUserName(userName)) {
+            FacebookUser user = userRepository.findByUserName(userName);
+            return toDTO(user);
+        }
+        else throw new UserNameExistException("Username does not exist");
+    }
 
     public UUID createUser(CreateUserDTO dto) {
         if (userRepository.existsByUserName(dto.userName()))
@@ -53,7 +80,7 @@ public class UserService {
 
     FacebookUser toFacebookUser(CreateUserDTO dto) {
         return FacebookUser.builder().userName(dto.userName())
-                .email(dto.email()).fullName(dto.fullName()).birthday(dto.birthday()).build();
+                .email(dto.email()).fullName(dto.fullName()).birthday(dto.birthDay()).build();
     }
 
     public void updateUser(UpdateUserDto dto) {

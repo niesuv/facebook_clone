@@ -1,12 +1,14 @@
 package niesuv.facebookclone.user_service.controler;
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import niesuv.facebookclone.user_service.dto.CreateUserDTO;
+import niesuv.facebookclone.user_service.dto.FacebookUserDto;
 import niesuv.facebookclone.user_service.dto.UpdateUserDto;
 import niesuv.facebookclone.user_service.service.FriendService;
 import niesuv.facebookclone.user_service.service.UserService;
@@ -64,6 +66,19 @@ public class MainController {
     public boolean exists(@PathVariable("userId") UUID id) {
         return userService.existsById(id);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{userId}")
+    public FacebookUserDto getUser(@PathVariable("userId") UUID id) {
+        return userService.getUserById(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/")
+    public FacebookUserDto getUser(@RequestParam("username") String username) {
+        return userService.getUserByUserName(username);
+    }
+
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/avatar")

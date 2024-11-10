@@ -28,7 +28,9 @@ public interface FacebookUserRepository extends JpaRepository<FacebookUser, UUID
             "where u.id = ?1")
     void updateNumberOfFriends(UUID uuid);
 
+
     @Override
     boolean existsById(UUID uuid);
 
+    FacebookUser findByUserName(String userName);
 }

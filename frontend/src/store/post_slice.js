@@ -26,7 +26,6 @@ export const loadNewData = (fetchData) => {
   return async (dispatch) => {
     dispatch(set_load());
     const data = await fetchData();
-    console.log(data);
     dispatch(addPost(data));
   };
 };

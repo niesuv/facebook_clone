@@ -13,15 +13,18 @@ const Root = () => {
   const location = useLocation()
   const showHeader = ["/login", '/signup'].indexOf(location.pathname) === -1;
   
-  // useEffect(() => {
-  //   const u = JSON.parse(localStorage.getItem('user'))
-  //   if (u)
-  //     dispatch(login(u))
-  // },[dispatch])
-  
   useEffect(() => {
-    if (user.id === '' && showHeader)
-      navigate("/login")
+    
+    if (user.id === '') {
+      const u = JSON.parse(localStorage.getItem('user'))
+      if (u){
+        dispatch(login(u))
+      }
+      else
+        if (showHeader)
+          navigate("/login")
+    }
+    
   }, [navigate, user])
 
   

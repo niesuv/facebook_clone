@@ -21,6 +21,23 @@ const client = new QueryClient();
 
 const router = createBrowserRouter([
   {
+    path: "/login",
+    element: <QueryClientProvider client={client}>
+    <Provider store={store}>
+      <LoginPage></LoginPage>
+    </Provider>
+  </QueryClientProvider>,
+  },
+  {
+    path: "/signup",
+    element: <QueryClientProvider client={client}>
+    <Provider store={store}>
+      <SignUpPage></SignUpPage>
+    </Provider>
+  </QueryClientProvider>,
+  }
+  ,{
+   
     path: "/",
     element: (
       <QueryClientProvider client={client}>
@@ -35,15 +52,6 @@ const router = createBrowserRouter([
         index: true,
         element: <Feed></Feed>,
       },
-      {
-        path: "/login",
-        element: <LoginPage />,
-      },
-      {
-        path: "/signup",
-        element: <SignUpPage />,
-      },
-
       {
         path: "/:username",
         element: <Wall />,
@@ -70,7 +78,5 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>
 );

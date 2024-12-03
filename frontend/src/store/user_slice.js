@@ -6,7 +6,7 @@ const initialState = {
     fullName: "",
     avtUrl: null,
     email: "",
-    backgroundUrl: null,
+    backgroundUrl: 'https://picsum.photos/600/400',
     birthday: null
 }
 

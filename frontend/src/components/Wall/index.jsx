@@ -1,19 +1,37 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { getUserDetails } from "../../util/http";
 import FriendIcon from "./FriendIcon";
+import { useSelector } from "react-redux";
 
 const Wall = () => {
-  const username = useParams("username");
-  const { data, isLoading, isError } = useQuery({
+  const {username} = useParams();
+  console.log(username)
+  const user = useSelector(state => state.user);
+
+  useEffect(() => {
+    if (username === user.userName)
+    {
+      refetch();
+      console.log('fetch')
+    }
+
+  }, [user, username]);
+
+  const { data, isLoading, isError, refetch} = useQuery({
     queryFn: () => {
+      if (user.userName !== "")
+        if (username === user.userName)
+          return user;
       return getUserDetails(username);
     },
-    queryKey: ["users", username],
+    queryKey: ["users", user, username],
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 2,
   });
+
+
 
   return (
     <div className="w-full dark:bg-darkblack dark:text-text">
@@ -53,7 +71,7 @@ const Wall = () => {
 
                 <div className="flex flex-col items-center md:mt-16 pt-2 md:items-start md:ml-4">
                   <p className="text-3xl text-white font-bold mt-2">
-                    {data.fullname}
+                    {data.fullName}
                   </p>
                   <p className="text-md text-darkwhite font-bold mt-2">
                     {data.totalFriend} người bạn

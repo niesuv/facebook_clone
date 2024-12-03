@@ -15,7 +15,6 @@ const PostList = () => {
             dispatch(loadNewData(getNewPost));
         load = false;
     }, [dispatch])
-
   return (
     <div className='h-full  md:max-w-[59%] w-full flex flex-col gap-4 pt-4'>
         {data.post && data.post.map(p => <PostItem post={p} key={p.postId}></PostItem>)}

@@ -10,7 +10,6 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(user);
     if (user.id !== "") navigate("/");
   }, [user, navigate]);
 
@@ -22,16 +21,16 @@ const LoginPage = () => {
       localStorage.setItem("user", JSON.stringify(data));
       navigate("/");
     } catch (err) {
-      if (err.response) {
-        if (err.response.data) setErrorMessage(err.response.data);
-      } else setErrorMessage("Some errors happened. Please try again!");
+      setErrorMessage("Some errors happened. Please try again!");
     }
   };
 
   return (
     <div className="h-screen w-full  lg:flex-row lg:items-center items-center justify-center  px-20 gap-4 bg-white flex flex-col">
       <div className="flex flex-col">
-        <h1 className="text-blue text-5xl font-bold text-center mb-2">facebook</h1>
+        <h1 className="text-blue text-5xl font-bold text-center mb-2">
+          facebook
+        </h1>
         <h1 className="text-wrap text-2xl text-darkblack ">
           Facebook helps you connect and share with the people in your life.
         </h1>
@@ -77,7 +76,12 @@ const LoginPage = () => {
         </form>
 
         <div className="w-full h-1 border-darkwhite mt-6 border-b-[1px]"></div>
-        <NavLink to="/signup" className='bg-green text-lg font-semibold text-[#fff] rounded-md py-2 px-4 mt-5 hover:brightness-110'>Create new account</NavLink>
+        <NavLink
+          to="/signup"
+          className="bg-green text-lg font-semibold text-[#fff] rounded-md py-2 px-4 mt-5 hover:brightness-110"
+        >
+          Create new account
+        </NavLink>
       </div>
     </div>
   );

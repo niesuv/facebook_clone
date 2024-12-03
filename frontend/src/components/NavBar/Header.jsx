@@ -11,12 +11,15 @@ import Menu from "../../svg/menu";
 import Messenger from "../../svg/messenger";
 import Notifications from "../../svg/notifications";
 import AllMenu from "./AllMenu";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const isDarkMode = document.documentElement.classList.contains('dark');
   let color = "#65676b";
   if (isDarkMode)
     color = '#B9BBBE'
+  
+  const user = useSelector(state => state.user);
   
 
   const [showAllMenu, setShowAllMenu] = useState(false);
@@ -110,8 +113,7 @@ const Header = () => {
           <NavLink className="mr-4 md:mr-1 flex items-center gap-1 cursor-pointer  border border-darkwhite rounded-full ">
             <img
               className="w-10 h-10 rounded-full"
-              src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-1/447458148_1428209785247518_705161193208956860_n.jpg?stp=dst-jpg_s200x200&_nc_cat=110&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeFvc6Yux-WdhtPuehYxIpS4bI7Azy2yZspsjsDPLbJmysTqAA6dQw2gl73wxMxelC1FfGIbhQ87id32A2kKk7uA&_nc_ohc=WhGMhrK6J2MQ7kNvgEUZRxu&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=A6l9Ci0uAhXl7IjD8reeqtr&oh=00_AYDWkBDBDhwdDrG07hOpBPkwbyf8QmJkRKas1Iy7nGWoaQ&oe=6706EDAF"
-              alt=""
+              src="" alt=""
             />
           </NavLink>
         </div>

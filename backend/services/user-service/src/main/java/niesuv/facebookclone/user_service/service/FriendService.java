@@ -74,4 +74,5 @@ public class FriendService {
         updateTotalFriend(friendId, -1);
         updateTotalFriend(id, -1);
     }
+
 }

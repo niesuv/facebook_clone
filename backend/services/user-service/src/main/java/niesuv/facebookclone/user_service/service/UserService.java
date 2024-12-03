@@ -3,6 +3,7 @@ package niesuv.facebookclone.user_service.service;
 import lombok.RequiredArgsConstructor;
 import niesuv.facebookclone.user_service.dto.CreateUserDTO;
 import niesuv.facebookclone.user_service.dto.FacebookUserDto;
+import niesuv.facebookclone.user_service.dto.FriendResponse;
 import niesuv.facebookclone.user_service.dto.UpdateUserDto;
 import niesuv.facebookclone.user_service.entity.FacebookUser;
 import niesuv.facebookclone.user_service.exception.CreateUserException;
@@ -13,14 +14,13 @@ import niesuv.facebookclone.user_service.http.PostFeignClient;
 import niesuv.facebookclone.user_service.http.S3Client;
 import niesuv.facebookclone.user_service.repository.FacebookUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +48,7 @@ public class UserService {
                 .fullName(fbUser.getFullName())
                 .birthday(fbUser.getBirthday())
                 .userName(fbUser.getUserName())
+                .totalFriends(fbUser.getTotalFriends())
                 .build();
     }
 
@@ -208,4 +209,22 @@ public class UserService {
     }
 
 
+    public FriendResponse getFriends(UUID userId, PageRequest pageRequest) {
+        if (userRepository.existsById(userId)) {
+            int page = pageRequest.getPageNumber();
+            int pageSize = pageRequest.getPageSize();
+            FacebookUser user = userRepository.getUserWithAllFriends(userId);
+            List<FacebookUserDto> friends = user.getFriends().stream().skip((long) page * pageSize)
+                    .limit(pageSize).map(UserService::toDTO).toList();
+            return FriendResponse.builder()
+                    .friends(friends)
+                    .total(user.getTotalFriends())
+                    .page(page)
+                    .size(pageSize)
+                    .build();
+
+        }
+        else
+            throw new UserIdNotExists("User id not exist!");
+    }
 }

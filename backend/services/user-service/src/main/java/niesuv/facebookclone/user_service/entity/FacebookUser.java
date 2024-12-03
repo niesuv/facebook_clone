@@ -36,7 +36,8 @@ public class FacebookUser {
     private LocalDate birthday;
 
     @Column(name = "avt_url")
-    private String avtUrl;
+    @Builder.Default
+    private String avtUrl = "https://nisuv-facebook.s3.ap-southeast-1.amazonaws.com/user_avt.png";
 
     @Column(name = "background_url")
     private String backgroundUrl;

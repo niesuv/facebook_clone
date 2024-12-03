@@ -13,5 +13,5 @@ import java.util.UUID;
 
 @Builder
 public record FacebookUserDto(@NotNull UUID id, String userName, String fullName, String avtUrl, String email,
-                              String backgroundUrl, LocalDate birthday) implements Serializable {
+                              String backgroundUrl, LocalDate birthday, Integer totalFriends) implements Serializable {
 }

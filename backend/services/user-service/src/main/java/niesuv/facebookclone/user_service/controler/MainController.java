@@ -1,21 +1,20 @@
 package niesuv.facebookclone.user_service.controler;
 
 
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import niesuv.facebookclone.user_service.dto.CreateUserDTO;
 import niesuv.facebookclone.user_service.dto.FacebookUserDto;
+import niesuv.facebookclone.user_service.dto.FriendResponse;
 import niesuv.facebookclone.user_service.dto.UpdateUserDto;
 import niesuv.facebookclone.user_service.service.FriendService;
 import niesuv.facebookclone.user_service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -105,6 +104,15 @@ public class MainController {
     public void deleleFriend(@RequestParam("userId") UUID id,
                              @RequestParam("friendId") UUID friendId) {
         friendService.deleteFriend(id, friendId);
+    }
+
+    @GetMapping("/friends/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public FriendResponse getFriends(@PathVariable("userId") UUID userId,
+                                     @RequestParam(value = "page", defaultValue = "0") int page
+            , @RequestParam(value = "size", defaultValue = "9") int size ) {
+        return userService.getFriends(userId, PageRequest.of(page, size));
+
     }
 
 }

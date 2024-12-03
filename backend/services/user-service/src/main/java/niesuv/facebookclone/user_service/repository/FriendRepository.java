@@ -23,4 +23,5 @@ public interface FriendRepository extends JpaRepository<Friend, FriendId> {
             "or (f.friendId.user1Id = ?2 and f.friendId.user2Id = ?1)" )
     void deleteFriendBy2UserId(UUID user1Id, UUID user2ID);
 
+
 }
